@@ -12,8 +12,8 @@
                 m[i]= Convert.ToInt32(Console.ReadLine());
 
             }
-            mergesort(m, 0, n - 1);
-            Console.WriteLine("after merge sort");
+            shellsort(m);
+            Console.WriteLine("after shell sort");
 
             for(int i = 0; i < n; i++)
             {
@@ -21,42 +21,34 @@
             }
             Console.ReadLine();
         }
-        public static void mergesort(int[] m,int l,int h)
-        {
-            if (l < h)
-            {
-                int mid = (l + h) / 2;
-                mergesort(m, l, mid);
-                mergesort(m, mid + 1, h);
-                merge(m, l, mid, h);
-            }
-        }
-        public static void merge(int[] m,int start,int mid,int end)
-        {
-            int i = start;
-            int j = mid + 1;
-            int k = start;
-            int[] crr = new int[start + end + 1];
-            while(i<=mid && j <= end)
-            {
-                if (m[i] <= m[j])
-                {
-                    crr[k++] = m[i++];
+        public static void shellsort(int[] m) {
+            int inner, outer, valueToInsert, interval = 1, i = 0;
 
-                }
-                else
-                {
-                    crr[k++] = m[j++];
-                }
-            }
-            for (; i <= mid; i++)
-                crr[k++] = m[i];
-            for (; j <= end; j++)
-                crr[k++] = m[j];
-            for(int py = start; py <= end; py++)
+            while (interval <= ((m.Length) / 3))
             {
-                m[py] = crr[py];
+                //  h=h*3+1
+                interval = interval * 3 + 1;
             }
+            while (interval > 0)
+            {
+                for (outer = 0; outer < m.Length; outer++)
+                {
+                    valueToInsert = m[outer];
+                    inner = outer;
+                    while ((inner > interval - 1) && (m[inner - interval] >= valueToInsert))
+                    {
+                        m[inner] = m[inner - interval];
+                        inner = inner - interval;
+                        Console.WriteLine("Item moved= " + m[inner]);
+                    }
+                    m[inner] = valueToInsert;
+                    Console.WriteLine("Item inserted at =" + m[inner]);
+                }
+                interval = (interval - 1) / 3;
+                i += 1;
+            }
+
         }
+        }
+       
     }
-}
